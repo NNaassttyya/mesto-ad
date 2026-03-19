@@ -17,40 +17,22 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'  # Более стабильная версия
+          node-version: '18'
 
-      - name: Show Node version
-        run: |
-          node --version
-          npm --version
-
-      - name: Clean install
-        run: |
-          rm -rf node_modules package-lock.json
-          npm install
-
-      - name: List installed packages
-        run: |
-          npm list --depth=0
-          ls -la node_modules/.bin || echo "Папка .bin не существует"
+      - name: Install dependencies
+        run: npm ci
 
       - name: Build project
-        run: |
-          echo "Пытаемся собрать..."
-          ./node_modules/.bin/vite build || npx vite build || echo "Vite не найден!"
-
-      - name: Check build output
-        run: |
-          ls -la dist || echo "Папка dist не создана"
+        run: npm run build
 
       - name: Deploy to GitHub Pages
-        if: success()
         uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.PUBLIC_PAGES_TOKEN }}
           external_repository: ${{ secrets.PUBLIC_PAGES_REPO }}
           publish_dir: ./dist
-          publish_branch: ${{ secrets.PUBLIC_PAGES_BRANCH || 'main' }}
+          publish_branch: main
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
           commit_message: 'deploy: update build'
+          enable_jekyll: true
