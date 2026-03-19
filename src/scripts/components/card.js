@@ -12,8 +12,6 @@ export const createCardElement = (cardData, handlers, currentUserId) => {
   cardImage.src = cardData.link;
   cardImage.alt = cardData.name;
   cardTitle.textContent = cardData.name;
-
-
   likeCount.textContent = cardData.likes.length;
 
   const isLiked = cardData.likes.some(user => user._id === currentUserId);
