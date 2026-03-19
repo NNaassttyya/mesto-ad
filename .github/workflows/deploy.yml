@@ -17,16 +17,34 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-            node-version: '>=22.12'
-            cache: 'npm'
+          node-version: '18'  # Более стабильная версия
 
-      - name: Install dependencies
-        run: npm install
+      - name: Show Node version
+        run: |
+          node --version
+          npm --version
+
+      - name: Clean install
+        run: |
+          rm -rf node_modules package-lock.json
+          npm install
+
+      - name: List installed packages
+        run: |
+          npm list --depth=0
+          ls -la node_modules/.bin || echo "Папка .bin не существует"
 
       - name: Build project
-        run: npm run build
+        run: |
+          echo "Пытаемся собрать..."
+          ./node_modules/.bin/vite build || npx vite build || echo "Vite не найден!"
+
+      - name: Check build output
+        run: |
+          ls -la dist || echo "Папка dist не создана"
 
       - name: Deploy to GitHub Pages
+        if: success()
         uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.PUBLIC_PAGES_TOKEN }}
