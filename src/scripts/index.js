@@ -55,15 +55,13 @@ const handlePreviewPicture = ({ name, link }) => {
 };
 
 const handleDeleteCard = (cardId, cardElement) => {
-  if (confirm('Вы уверены, что хотите удалить эту карточку?')) {
-    deleteCard(cardId)
-      .then(() => {
-        cardElement.remove();
-      })
-      .catch((err) => {
-        console.log('Ошибка при удалении карточки:', err);
-      });
-  }
+  deleteCard(cardId)
+    .then(() => {
+      cardElement.remove();
+    })
+    .catch((err) => {
+      console.log('Ошибка', err);
+    });
 };
 
 const handleProfileFormSubmit = (evt) => {
@@ -73,7 +71,6 @@ const handleProfileFormSubmit = (evt) => {
   const originalText = submitButton.textContent;
 
   submitButton.disabled = true;
-  submitButton.textContent = 'Сохранение...';
 
   setUserInfo({
     name: profileTitleInput.value,
@@ -85,7 +82,7 @@ const handleProfileFormSubmit = (evt) => {
       closeModalWindow(profileFormModalWindow);
     })
     .catch((err) => {
-      console.log('Ошибка при обновлении профиля:', err);
+      console.log('Ошибка:', err);
     })
     .finally(() => {
       submitButton.disabled = false;
@@ -100,7 +97,6 @@ const handleAvatarFormSubmit = (evt) => {
   const originalText = submitButton.textContent;
 
   submitButton.disabled = true;
-  submitButton.textContent = 'Сохранение...';
 
   setUserAvatar({
     avatar: avatarInput.value,
@@ -110,7 +106,7 @@ const handleAvatarFormSubmit = (evt) => {
       closeModalWindow(avatarFormModalWindow);
     })
     .catch((err) => {
-      console.log('Ошибка при обновлении аватара:', err);
+      console.log('Ошибка:', err);
     })
     .finally(() => {
       submitButton.disabled = false;
@@ -125,7 +121,6 @@ const handleCardFormSubmit = (evt) => {
   const originalText = submitButton.textContent;
 
   submitButton.disabled = true;
-  submitButton.textContent = 'Сохранение...';
 
   addNewCard({
     name: cardNameInput.value,
@@ -147,7 +142,7 @@ const handleCardFormSubmit = (evt) => {
       clearValidation(cardForm, validationSettings);
     })
     .catch((err) => {
-      console.log('Ошибка при добавлении карточки:', err);
+      console.log('Ошибка:', err);
     })
     .finally(() => {
       submitButton.disabled = false;
@@ -198,7 +193,7 @@ Promise.all([getCardList(), getUserInfo()])
     });
   })
   .catch((err) => {
-    console.log('Ошибка при загрузке данных:', err);
+    console.log('Ошибка:', err);
   })
   .finally(() => {
     enableValidation(validationSettings);
