@@ -14,7 +14,6 @@ export const createCardElement = (cardData, handlers, currentUserId) => {
   cardTitle.textContent = cardData.name;
   likeCount.textContent = cardData.likes.length;
 
-
   const isLiked = cardData.likes.some(user => user._id === currentUserId);
   if (isLiked) {
     likeButton.classList.add('card__like-button_is-active');
