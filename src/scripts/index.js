@@ -198,6 +198,7 @@ Promise.all([getCardList(), getUserInfo()])
   .finally(() => {
     enableValidation(validationSettings);
   });
+
 const allPopups = document.querySelectorAll(".popup");
 allPopups.forEach((popup) => {
   setCloseModalWindowEventListeners(popup);
